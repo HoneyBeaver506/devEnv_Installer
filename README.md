@@ -1,65 +1,75 @@
-DevEnv Installer
-Description
-The DevEnv Installer is a Ruby command-line interface (CLI) tool designed to streamline the setup of your development environment by automating the installation of common packages. It allows you to select individual packages or install a predefined set of defaults, handling dependencies and prompting for administrator privileges when necessary.
+# 🚀 DevEnv Installer
 
-Features
-Interactive CLI: Easy-to-use menu for package selection.
+A **Ruby Command-Line Interface (CLI) tool** to automate and streamline your development environment setup. Easily install essential packages, manage dependencies, and enjoy a smooth onboarding experience on macOS and Linux.
 
-Modular Design: Easily add new packages and installation methods.
+---
 
-Dependency Resolution: Automatically installs package dependencies in the correct order.
+## 📖 Overview
 
-Homebrew Integration: Leverages Homebrew for macOS package management.
+The **DevEnv Installer** helps you:
 
-Curl & Gem Integration: Uses curl for script-based installations and gem for Ruby libraries.
+- Select and install individual packages or a predefined set of defaults.
+- Automatically resolve dependencies.
+- Get prompted for administrator privileges when needed.
+- Receive a summary of which installations succeeded or failed.
 
-Sudo Prompting: Securely prompts for your password if a command requires root privileges.
+---
 
-Installation Summary: Provides a clear overview of successful and failed installations.
+## ✨ Features
 
-Prerequisites
-Before running this script, ensure you have the following:
+- **Interactive CLI:** Easy-to-use menu for package selection.
+- **Modular Design:** Add new packages and installation methods with minimal effort.
+- **Dependency Resolution:** Installs dependencies in the correct order.
+- **Homebrew Integration:** Uses Homebrew for macOS package management.
+- **Curl & Gem Integration:** Supports script-based installs with `curl` and Ruby gems.
+- **Sudo Prompting:** Securely requests your password if root access is needed.
+- **Installation Summary:** Clear overview of completed and failed installs.
 
-Ruby: You need Ruby installed on your system to run the script itself.
+---
 
-macOS: Ruby usually comes pre-installed. If not, you can install it via your system's package manager (e.g., Homebrew, which this script can help you install).
+## ⚡ Prerequisites
 
-Linux: Use your distribution's package manager (e.g., sudo apt install ruby on Debian/Ubuntu, sudo dnf install ruby on Fedora).
+Make sure you have the following before running the script:
 
-Git: Required for some curl installations that fetch content from GitHub.
+| Requirement       | Notes                                                                                          |
+|-------------------|------------------------------------------------------------------------------------------------|
+| **Ruby**          | Required to run the script. Pre-installed on macOS; install via your package manager if missing. |
+| **Git**           | Needed for some curl-based installations.                                                     |
+| **Internet**      | Required to download packages/scripts.                                                        |
+| **macOS/Linux**   | Compatible with both. For Linux, use your distro’s package manager to install Ruby if needed.  |
 
-Internet Connection: Necessary to download packages and installation scripts.
+---
 
-How to Use
-1. Download the Script
-Save the provided Ruby code into a file named install_devenv.rb (or any .rb extension).
+## 🛠️ Installation & Usage
 
-2. Make the Script Executable
-Open your terminal and run the following command to give the script execution permissions:
+### 1. **Download the Script**
 
+Save the Ruby code as `install_devenv.rb` (or any `.rb` extension).
+
+### 2. **Make the Script Executable**
+
+```bash
 chmod +x install_devenv.rb
+```
 
-3. Run the Installer
-Execute the script from your terminal:
+### 3. **Run the Installer**
 
+```bash
 ./install_devenv.rb
+```
 
-4. Follow the Prompts
-The script will guide you through the process:
+### 4. **Follow the Prompts**
 
-It will first check for Homebrew. If not found, it will ask if you want to install it. Type y and press Enter to proceed with Homebrew installation (recommended for macOS users).
+- **Homebrew:** If not found, you'll be prompted to install it (recommended for macOS).
+- **Menu:** Choose packages by entering their numbers (e.g. `1`, `1 3 5`, or `1,3,5`).
+- **All Defaults:** Type `a` or `all` to install all default packages.
+- **Quit:** Type `q`, `quit`, or `exit` to stop.
 
-The main menu will display a list of available packages.
+---
 
-To select a single package: Enter its corresponding number (e.g., 1 for Ruby) and press Enter.
+## 💡 Example Workflow
 
-To select multiple packages: Enter their numbers separated by commas or spaces (e.g., 1,3,5 or 1 3 5) and press Enter.
-
-To install all default packages: Type a or all and press Enter.
-
-To quit: Type q, quit, or exit and press Enter.
-
-Example Workflow
+```
 ./install_devenv.rb
 
 🚀 DevEnv Installer
@@ -107,67 +117,65 @@ Enter your choice: a
 🎉 Installation process complete!
 
 Press Enter to continue...
+```
 
-How to Expand/Add New Packages
-The script is designed for easy expansion. To add a new package:
+---
 
-Open install_devenv.rb in your text editor.
+## 🧩 Adding New Packages
 
-Locate the PACKAGES constant. This is a Ruby hash where each key represents a package identifier, and its value is a hash containing package details.
+To expand the installer:
 
-Add a new entry to the PACKAGES hash following this structure:
+1. **Open `install_devenv.rb` in your editor.**
+2. **Locate the `PACKAGES` constant** — a Ruby hash mapping package keys to their details.
+3. **Add a package** using this template:
 
+```ruby
 'your_package_key' => {
   name: 'User-Friendly Package Name',
   command: 'command to install the package', # e.g., 'brew install myapp', 'gem install mygem'
-  method: 'homebrew', # or 'gem', 'curl', 'custom_ruby_install', or a new custom method
-  dependencies: ['dependency_key1', 'dependency_key2'], # Optional: other package keys it depends on
-  check_installed_command: 'command to check if it\'s installed', # e.g., 'which myapp', 'myapp --version'
-  requires_sudo: false, # Optional: set to true if `sudo` is needed for `command`
-  post_install_commands: ['command1', 'command2'] # Optional: array of commands to run after installation
-},
+  method: 'homebrew', # or 'gem', 'curl', 'custom_ruby_install', or your custom method
+  dependencies: ['dependency_key1', 'dependency_key2'], # Optional
+  check_installed_command: 'command to check if installed', # e.g., 'which myapp'
+  requires_sudo: false, # Optional
+  post_install_commands: ['command1', 'command2'] # Optional
+}
+```
 
-name: What the user sees in the menu.
+- **name:** Displayed in the menu.
+- **command:** Shell command to install the package.
+- **method:** Supported: `homebrew`, `gem`, `curl`, `custom_ruby_install`. To add new methods, implement an `install_your_method_package(package)` function in the `DevEnvInstaller` class and update the `case package[:method]` logic.
+- **dependencies:** Array of package keys that must be installed first. Handled automatically.
+- **check_installed_command:** Used to check if already installed (return code 0 = installed).
+- **requires_sudo:** Set true if root required; prompts for password.
+- **post_install_commands:** Additional commands to run after installation.
 
-command: The actual shell command to execute for installation.
+**To add your package to the default selection:**  
+Update the `DEFAULT_PACKAGES` array with your new package key.
 
-method: Categorizes the installation type. Currently supported: homebrew, gem, curl, custom_ruby_install. If you need a new method, you'll also need to add a corresponding install_your_method_package(package) function within the DevEnvInstaller class and update the case package[:method] statement in install_package.
+---
 
-dependencies: An array of package_key strings that must be installed before this package. The script will resolve these automatically.
+## 🩺 Troubleshooting
 
-check_installed_command: A shell command used to determine if the package is already installed. If this command exits successfully (returns 0), the package is considered installed.
+**"command not found" errors**
+- Ensure the `command` is correct and in your PATH.
+- Restart your terminal or source your shell config (`.zshrc`, `.bashrc`) after installing new tools.
 
-requires_sudo: Set to true if the command requires sudo privileges. The script will prompt for a password.
+**"Failed to install Homebrew"**
+- Ensure `curl` is installed (`which curl`).
+- Check your internet connection.
+- Try manually running the Homebrew install command shown in the error message.
 
-post_install_commands: An array of additional shell commands to run after the main installation command completes successfully.
+**Ruby/Gem issues after installing rbenv**
+- Make sure rbenv is initialized in your shell (see its post-install message).
+- Run `rbenv rehash` if new executables are missing.
 
-Update DEFAULT_PACKAGES (Optional):
-If you want your new package to be part of the "install all default packages" option, add its package_key to the DEFAULT_PACKAGES array.
+**"permission denied" errors**
+- Set the `requires_sudo: true` flag for that package in `PACKAGES`.
 
-Troubleshooting
-"command not found" errors:
+---
 
-Ensure the command is correctly spelled in PACKAGES.
+## 📄 License
 
-Verify the command is in your system's PATH. For Homebrew or nvm installations, you might need to restart your terminal or source your shell's configuration file (e.g., ~/.zshrc, ~/.bashrc) after the initial installation for the new commands to be available in your current session. The script attempts to update its own PATH, but a full shell reload is often best.
+This project is open-source and available under the [MIT License](LICENSE).
 
-"Failed to install Homebrew":
-
-Ensure you have curl installed (which curl).
-
-Check your internet connection.
-
-Try running the Homebrew installation command provided in the error message manually.
-
-Ruby or Gem installation issues after rbenv:
-
-Make sure rbenv is correctly initialized in your shell. The rbenv post_install_commands provides instructions on how to do this.
-
-Run rbenv rehash if new executables (like bundle or rails) aren't found after gem install.
-
-"Error installing...: permission denied":
-
-This usually means the installation command requires sudo but the requires_sudo: true flag was not set for that package in the PACKAGES definition. Update the package definition accordingly.
-
-License
-This project is open-source and available under the MIT License.
+---
