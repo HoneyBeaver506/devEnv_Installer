@@ -176,6 +176,9 @@ Update the `DEFAULT_PACKAGES` array with your new package key.
 **Virustotal check:**
 [0bc61b261dddcd386d9dd41a2730ddd62a58dd30962a9bbfd64d7056964f7f23]
 
+**CURRENTLY MAINTAINED**
+I am actively maintaning this github repo. If anyone wants to collaborate, feel free to clone the code and make changes. The code is open source however, publishing an exact copy of the code is plagarism. For the respect of my repo, please do not make copy and try to make it your own. You can fork it and add your changes. Thanks and enjoy the script.
+
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
