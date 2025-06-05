@@ -173,6 +173,8 @@ Update the `DEFAULT_PACKAGES` array with your new package key.
 - Set the `requires_sudo: true` flag for that package in `PACKAGES`.
 
 ---
+**Virustotal check:**
+[0bc61b261dddcd386d9dd41a2730ddd62a58dd30962a9bbfd64d7056964f7f23]
 
 ## 📄 License
 
